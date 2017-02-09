@@ -1,3 +1,11 @@
+﻿
+// メモ：
+// ノズルのアレ
+// TYPEごとに単位変えればいいんでね？
+// GMeter 付いてれば表示なんやらをifで作れるのでは？
+// Tempも同じく ついてなければ0で
+// 燃料残量取得できるだろうか
+
 WAIT 0.5.
 CLEARSCREEN.
 PRINT "STARTING CC v1.0a....".
@@ -9,6 +17,7 @@ CLEARSCREEN.
 PRINT "===== INSTRUMENTS GAUGE SYSTEM v1.0a =====".
 UNTIL FALSE {
 
+	LIST ENGINES IN ENG.
 
 	set ASI to (AIRSPEED) * 1.944.	
 	set AOA to (0).
@@ -26,24 +35,23 @@ UNTIL FALSE {
 	set VSI to (VERTICALSPEED) * 3.28084 * 60.
 	set CLK to (TIME:CLOCK).
 
-	LIST ENGINES IN ENG.
-			set RPM1 to (ENG[0]:THRUST / ENG[0]:MAXTHRUST * 100).
-			set RPM2 to (ENG[1]:THRUST / ENG[1]:MAXTHRUST * 100).
-			set ITT1 to (0).
-			set ITT2 to (0).
-			set FF1 to (ENG[0]:FUELFLOW) * 0.453592 * 3600. // 1L= 1kg
-			set FF2 to (ENG[1]:FUELFLOW) * 0.453592 * 3600.
-			if (THROTTLE_POS < 75 )
-				{
-					set ENG_NOZZLE_TEMP to THROTTLE_POS - 75.
-					set ENG_NOZZLE to ENG_NOZZLE_TEMP * -100 / 75.
-				}
-			else
-				{
-					set ENG_NOZZLE to THROTTLE_POS .
-				}
-			set NOZ1 to (ENG_NOZZLE).
-			set NOZ2 to (ENG_NOZZLE).
+	set RPM1 to (ENG[0]:THRUST / ENG[0]:MAXTHRUST * 100).
+	set RPM2 to (ENG[1]:THRUST / ENG[1]:MAXTHRUST * 100).
+	set ITT1 to (0).
+	set ITT2 to (0).
+	set FF1 to (ENG[0]:FUELFLOW) * 0.453592 * 3600. // 1L= 1kg
+	set FF2 to (ENG[1]:FUELFLOW) * 0.453592 * 3600.
+	if (THROTTLE_POS < 75 )
+		{
+			set ENG_NOZZLE_TEMP to THROTTLE_POS - 75.
+			set ENG_NOZZLE to ENG_NOZZLE_TEMP * -100 / 75.
+		}
+	else
+		{
+			set ENG_NOZZLE to THROTTLE_POS .
+		}
+	set NOZ1 to (ENG_NOZZLE).
+	set NOZ2 to (ENG_NOZZLE).
 //--------------------------------------------------------------------------
 	PRINT "SPD (kts) : " + ROUND(ASI, 2) + "    " AT(1, 2).
 	PRINT "AOA ()    : " + ROUND(AOA, 2) + "    " AT(1, 3).
